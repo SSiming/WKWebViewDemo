@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <style>
+    ul,li{
+      list-style-type: none;
+      margin:0;
+      padding:0
+    }
+    li{
+      display: block;
+      padding:10px 20px;
+      background:#aaa;
+      color:#fff;
+      border-radius: 5px;
+      margin-top:20px;
+      text-align: center;
+    }
+  </style>
+  <title>js call native api</title>
+  
+  <script>
+      // 获取到devideId回调
+      var globalCallback = function(devideId) {
+          document.getElementById('temp').innerHTML = devideId;
+      }
+  </script>
+  
+</head>
+<body>
+<ul>
+  <li onclick="popAlertPanel()">弹提示框</li>
+  <li onclick="popConfirmPanel()">弹确认框</li>
+  <li onclick="popTextInputPanel()">弹输入框</li>
+  <li onclick="getDeviceId()">获取设备ID</li>
+  
+</ul>
+<div id="temp"></div>
+
+<script>
+  // 弹提示框
+  function popAlertPanel() {
+      alert("提示框");
+  }
+  // 弹确认框
+  function popConfirmPanel() {
+      var ok = confirm("确认框");
+      document.getElementById('temp').innerHTML = ok;
+  }
+  // 弹输入框
+  function popTextInputPanel() {
+      var tel = prompt("输入框","请输入手机号");
+      document.getElementById('temp').innerHTML = tel;
+  }
+
+  // 获取设备ID
+  function getDeviceId() {
+      window.webkit.messageHandlers.timefor.postMessage({code: '0001', functionName: 'getdevideId'});
+  }
+
+</script>
+</body>
+</html>
