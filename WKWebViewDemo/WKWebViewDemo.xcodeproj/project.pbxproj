@@ -15,6 +15,7 @@
 		705DE6341DDD8539005752FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 705DE6321DDD8539005752FC /* LaunchScreen.storyboard */; };
 		705DE63D1DDD86AA005752FC /* OCJSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 705DE63C1DDD86AA005752FC /* OCJSHelper.m */; };
 		705DE63F1DDDB302005752FC /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 705DE63E1DDDB302005752FC /* test.html */; };
+		70DE24F11E053458000D68CA /* PushVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE24F01E053458000D68CA /* PushVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		705DE63B1DDD86AA005752FC /* OCJSHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCJSHelper.h; sourceTree = "<group>"; };
 		705DE63C1DDD86AA005752FC /* OCJSHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCJSHelper.m; sourceTree = "<group>"; };
 		705DE63E1DDDB302005752FC /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		70DE24EF1E053458000D68CA /* PushVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushVC.h; sourceTree = "<group>"; };
+		70DE24F01E053458000D68CA /* PushVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +68,8 @@
 			children = (
 				705DE6271DDD8539005752FC /* AppDelegate.h */,
 				705DE6281DDD8539005752FC /* AppDelegate.m */,
+				70DE24EF1E053458000D68CA /* PushVC.h */,
+				70DE24F01E053458000D68CA /* PushVC.m */,
 				705DE62A1DDD8539005752FC /* ViewController.h */,
 				705DE62B1DDD8539005752FC /* ViewController.m */,
 				705DE63B1DDD86AA005752FC /* OCJSHelper.h */,
@@ -162,6 +167,7 @@
 				705DE62C1DDD8539005752FC /* ViewController.m in Sources */,
 				705DE6291DDD8539005752FC /* AppDelegate.m in Sources */,
 				705DE63D1DDD86AA005752FC /* OCJSHelper.m in Sources */,
+				70DE24F11E053458000D68CA /* PushVC.m in Sources */,
 				705DE6261DDD8539005752FC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

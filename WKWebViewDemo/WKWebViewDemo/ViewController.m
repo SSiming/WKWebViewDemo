@@ -88,7 +88,8 @@ static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， N
 - (void)dealloc {
     [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
     [self.webView removeObserver:self forKeyPath:@"title"];
-    [self.webView removeObserver:self forKeyPath:@"contentSize"];
+    [self.webView.scrollView removeObserver:self forKeyPath:@"contentSize"];
+    [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"timefor"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {

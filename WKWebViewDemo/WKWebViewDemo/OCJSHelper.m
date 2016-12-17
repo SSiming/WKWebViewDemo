@@ -22,6 +22,10 @@
     return self;
 }
 
+- (void)dealloc {
+    NSLog(@"%@, %s", self.class, __func__);
+}
+
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
     NSDictionary *dic = [NSDictionary dictionaryWithDictionary:message.body];
     NSLog(@"JS交互参数：%@", dic);
