@@ -15,12 +15,13 @@
 
 static CGFloat addViewHeight = 500;   // 添加自定义 View 的高度
 static BOOL showAddView = YES;        // 是否添加自定义 View
-static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， NO 使用 contentInset，YES 使用 div
+static BOOL useEdgeInset = NO;        // 用哪种方法添加自定义View， NO 使用 contentInset，YES 使用 div
 
 @interface ViewController ()
 <
     WKNavigationDelegate,
-    WKUIDelegate
+    WKUIDelegate,
+    UIScrollViewDelegate
 >
 
 @property (nonatomic, strong) WKWebView *webView;
@@ -62,6 +63,7 @@ static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， N
     self.ocjsHelper.webView = self.webView;
     [self.view addSubview:self.webView];
     
+    self.webView.scrollView.delegate = self;
     
     self.webView.navigationDelegate = self;
     self.webView.UIDelegate = self;
@@ -129,9 +131,7 @@ static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， N
     if (!showAddView) return;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        self.addView = [[UIView alloc] initWithFrame:CGRectMake(0, self.webView.scrollView.contentSize.height, ScreenWidth, addViewHeight)];
-        self.addView.backgroundColor = [UIColor redColor];
+
         [self.webView.scrollView addSubview:self.addView];
         
         if (useEdgeInset) {
@@ -149,8 +149,11 @@ static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， N
                             appendDiv.style.height=%@+\"px\";\
                             document.body.appendChild(appendDiv);\
                             }\
-                            ", @(addViewHeight), @(self.webView.scrollView.contentSize.width), @(addViewHeight)];
-            [self.webView evaluateJavaScript:js completionHandler:nil];
+                            ", @(addViewHeight), @(ScreenWidth), @(addViewHeight)];
+            [self.webView evaluateJavaScript:js completionHandler:^(id value, NSError *error) {
+                // 执行完上面的那段 JS, webView.scrollView.contentSize.height 的高度已经是加上 div 的高度
+                self.addView.frame = CGRectMake(0, self.webView.scrollView.contentSize.height - addViewHeight, ScreenWidth, addViewHeight);
+            }];
         }
     });
 }
@@ -177,7 +180,7 @@ static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， N
     decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
-// 加载HTTPS的链接，需要权限认证时调用
+// 加载 HTTPS 的链接，需要权限认证时调用  \  如果 HTTPS 是用的证书在信任列表中这不要此代理方法
 - (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         if ([challenge previousFailureCount] == 0) {
@@ -231,6 +234,14 @@ static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， N
     [self presentViewController:alert animated:YES completion:NULL];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.webView evaluateJavaScript:@"parseFloat(document.getElementById(\"AppAppendDIV\").style.width);" completionHandler:^(id value, NSError * _Nullable error) {
+        NSLog(@"======= %@", value);
+    }];
+}
+
 #pragma mark - Setter & Getter
 
 - (OCJSHelper *)ocjsHelper {
@@ -238,6 +249,14 @@ static BOOL useEdgeInset = NO;        // 用那种方法添加自定义View， N
         _ocjsHelper = [[OCJSHelper alloc] initWithDelegate:(id)self vc:self];
     }
     return _ocjsHelper;
+}
+
+- (UIView *)addView {
+    if (!_addView) {
+        _addView = [[UIView alloc] init];
+        _addView.backgroundColor = [UIColor redColor];
+    }
+    return _addView;
 }
 
 // UIWebView 使用的权限认证方式，
